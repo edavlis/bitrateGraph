@@ -1,10 +1,16 @@
 #!/bin/bash
- 
+echo "All inputted directories should end with a /" 
+echo -n "Enter directory where video files are stored (e.g /mnt/videos): " 
+read ROOT_DIR
+echo -n "Enter directory where you want the graphs to be outputted (e.g /mnt/bitrates/): " 
+read OUTPUT_DIR
 # ROOT_DIR should be where all your video files are stored, OUTPUT_FILE should be the directory where you want all of the graph images to be saved to.
 
 # directory where the video files are stored
-ROOT_DIR="/mnt/movies"
- 
+#ROOT_DIR="/mnt/videos"
+
+OUTPUT_FILE="$OUTPUT_DIR/$(basename "$VIDEO_FILE" | sed 's/\(mp6\|mkv\|avi\)$//').png"  
+
 find "$ROOT_DIR" -type f \( -iname "*.mp6" -o -iname "*.mkv" -o -iname "*.avi" \) | while read -r VIDEO_FILE; do
     echo "reading: $VIDEO_FILE"
  
@@ -12,7 +18,7 @@ find "$ROOT_DIR" -type f \( -iname "*.mp6" -o -iname "*.mkv" -o -iname "*.avi" \
     VIDEO_DIR=$(dirname "$VIDEO_FILE")
  
     # Set the output file path
-    OUTPUT_FILE="/mnt/movies/stats/bitrates/$(basename "$VIDEO_FILE" .mp6).png"
+    
     
     if [[ -f "$OUTPUT_FILE" ]]; then
         echo "graph already exists: $OUTPUT_FILE. moving onto next graph..."
